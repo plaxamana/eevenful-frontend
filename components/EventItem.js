@@ -1,13 +1,18 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '@/styles/EventItem.module.css'
+import options from '../dateoptions'
 
 export default function EventItem({ event }) {
   return (
     <div className={styles.event}>
       <div className={styles.img}>
         <Image
-          src={event.image ? event.image : '/images/event-default.png'}
+          src={
+            event.image
+              ? event.image.formats.thumbnail.url
+              : '/images/event-default.png'
+          }
           alt='event image'
           height={100}
           width={170}
@@ -15,7 +20,7 @@ export default function EventItem({ event }) {
       </div>
       <div className={styles.info}>
         <span>
-          {event.date} at {event.time}
+          {new Date(event.date).toLocaleDateString('en-US', options)} at {event.time}
         </span>
         <h3>{event.name}</h3>
       </div>
