@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.css'
 import Layout from '@/components/Layout'
+import Modal from '@/components/Modal'
 import Image from 'next/image'
 import { FaImage } from 'react-icons/fa'
 
@@ -24,6 +25,8 @@ export default function EditEventPage({ event }) {
   const [imagePreview, setImagePreview] = useState(
     event.image ? event.image.formats.thumbnail.url : null
   )
+
+  const [showModal, setShowModal] = useState(false)
 
   const router = useRouter()
 
@@ -154,10 +157,13 @@ export default function EditEventPage({ event }) {
       )}
 
       <div>
-        <button className='btn-secondary'>
+        <button className='btn-secondary' onClick={() => setShowModal(true)}>
           <FaImage /> Set Image
         </button>
       </div>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        Image Upload
+      </Modal>
     </Layout>
   )
 }
