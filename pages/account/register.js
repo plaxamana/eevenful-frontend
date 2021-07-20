@@ -16,6 +16,8 @@ export default function RegisterPage() {
 
   const { register, error } = useContext(AuthContext)
 
+  useEffect(() => error && toast.error(error))
+
   function handleSubmit(e) {
     e.preventDefault()
     if (password !== passwordConfirm) {
@@ -47,7 +49,7 @@ export default function RegisterPage() {
           <div>
             <label htmlFor='username'>Username</label>
             <input
-              type='email'
+              type='text'
               name='username'
               id='username'
               value={username}
@@ -74,7 +76,7 @@ export default function RegisterPage() {
               onChange={e => setPasswordConfirm(e.target.value)}
             />
           </div>
-          <input type='submit' value='login' className='btn' />
+          <input type='submit' value='Login' className='btn' />
         </form>
 
         <p>
