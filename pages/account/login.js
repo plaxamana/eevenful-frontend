@@ -49,7 +49,7 @@ export default function LoginPage() {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
-          <input type='submit' value='login' className='btn' />
+          <input type='submit' value='Login' className='btn' />
         </form>
 
         <p>

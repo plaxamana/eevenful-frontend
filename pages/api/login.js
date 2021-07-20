@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { API_URL } from '@/config/index'
+import cookie from 'cookie'
 
 export default async function (req, res) {
   if (req.method === 'POST') {
@@ -17,10 +18,20 @@ export default async function (req, res) {
     })
 
     const data = await strapiRes.json()
-    console.log(data.jwt);
+    console.log(data.jwt)
     if (strapiRes.ok) {
       // TODO: Set cookie
-
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('token', data.jwt, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: 'strict',
+          path: '/'
+        })
+      )
+      
       res.status(200).json({ user: data.user })
     } else {
       res
