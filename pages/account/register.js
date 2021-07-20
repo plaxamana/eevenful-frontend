@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect, useContext } from 'react'
+import AuthContext from '@/context/AuthContext'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
 import styles from '@/styles/AuthForm.module.css'
@@ -13,14 +14,16 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
 
+  const { register, error } = useContext(AuthContext)
+
   function handleSubmit(e) {
     e.preventDefault()
-    if(password !== passwordConfirm) {
+    if (password !== passwordConfirm) {
       toast.error('Passwords do not match.')
       return
     }
-    
-    console.log({ email, password })
+
+    register({ username, email, password })
   }
 
   return (
@@ -75,7 +78,7 @@ export default function RegisterPage() {
         </form>
 
         <p>
-         Already have an account? <Link href='/account/login'>Login</Link>
+          Already have an account? <Link href='/account/login'>Login</Link>
         </p>
       </div>
     </Layout>
