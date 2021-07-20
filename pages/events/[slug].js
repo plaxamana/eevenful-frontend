@@ -11,34 +11,10 @@ import { useRouter } from 'next/router'
 
 export default function EventPage({ event }) {
   const router = useRouter()
-  async function deleteEvent() {
-    if (confirm('Are you sure?')) {
-      const res = await fetch(`${API_URL}/events/${event.id}`, {
-        method: 'DELETE',
-      })
-
-      const data = await res.json()
-      if (!res.ok) {
-        toast.error(data.error)
-      } else {
-        router.push('/events')
-      }
-    }
-  }
 
   return (
     <Layout title={event.name}>
       <div className={styles.event}>
-        <div className={styles.controls}>
-          <Link href={`/events/edit/${event.id}`}>
-            <a>
-              <FaPencilAlt /> Edit Event
-            </a>
-          </Link>
-          <a href='#' className={styles.delete} onClick={deleteEvent}>
-            <FaTimes /> Delete Event
-          </a>
-        </div>
         <span>
           {new Date(event.date).toLocaleDateString('en-US', options)} at{' '}
           {event.time}

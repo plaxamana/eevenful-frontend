@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { parseCookies } from '@/helpers/index'
 import moment from 'moment'
 import Link from 'next/link'
 import { ToastContainer, toast } from 'react-toastify'
@@ -12,7 +13,7 @@ import ImageUpload from '@/components/ImageUpload'
 import Image from 'next/image'
 import { FaImage } from 'react-icons/fa'
 
-export default function EditEventPage({ event }) {
+export default function EditEventPage({ event, token }) {
   const [values, setValues] = useState({
     name: event.name,
     performers: event.performers,
@@ -44,11 +45,16 @@ export default function EditEventPage({ event }) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     })
 
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('Unauthorized')
+        return
+      }
       toast.error('something went wrong')
     } else {
       const event = await res.json()
@@ -169,21 +175,25 @@ export default function EditEventPage({ event }) {
         </button>
       </div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ImageUpload eventId={event.id} imageUploaded={imageUploaded} />
+        <ImageUpload
+          eventId={event.id}
+          imageUploaded={imageUploaded}
+          token={token}
+        />
       </Modal>
     </Layout>
   )
 }
 
 export async function getServerSideProps({ params: { id }, req }) {
+  const { token } = parseCookies(req)
   const res = await fetch(`${API_URL}/events/${id}`)
   const event = await res.json()
-
-  console.log(req.headers.cookie);
 
   return {
     props: {
       event,
+      token,
     },
   }
 }
