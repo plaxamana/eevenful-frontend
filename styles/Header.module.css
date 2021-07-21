@@ -2,20 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
-  color: #333;
+  background: #00045E;
+  color: #FFF;
   height: 60px;
   padding: 0 30px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header a {
-  color: #333;
+  color: #FFF;
   margin-right: 20px;
 }
 
 .header a:hover {
-  color: #000;
+  color: #F0F0F0;
 }
 
 .header ul {
@@ -26,13 +26,13 @@
 }
 
 .logo {
-  color: red;
+  color: #FFF;
   font-size: 20px;
   text-transform: uppercase;
 }
 
 .logo a {
-  color: red;
+  color: #FFF;
 }
 
 @media (max-width: 768px) {
